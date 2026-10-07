@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Listings | FWC Admin Portal</title>
+  <meta name="description" content="Manage active requisitions, review pending job postings, and track applicant flow across the FWC Portal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/job-listings.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Global FWC Header -->
+    <fwc-header
+      page-title="Job Listings"
+      page-subtitle="Manage active requisitions, review pending job postings, and track applicant flow">
+    </fwc-header>
+
+    <div class="app-body">
+      <!-- Global FWC Sidebar (active: job-listings) -->
+      <fwc-sidebar active="job-listings"></fwc-sidebar>
+
+      <!-- Main Workspace Viewport -->
+      <main class="main-viewport" id="mainContent">
+        <div class="jobs-surface">
+
+          <!-- ── Page Header & Action CTAs ──────────────────────────────── -->
+          <div class="jobs-header-row">
+            <div class="jobs-title-group">
+              <h1 class="jobs-title">Job Listings</h1>
+              <p class="jobs-sub">Manage active openings, review pending requisitions, and track candidate applicant flow.</p>
+            </div>
+
+            <!-- Top Action CTAs: Export CSV & Post a New Job -->
+            <div class="jobs-header-actions">
+              <button type="button" class="btn-header-ghost" id="btnExportCsv" title="Export current list to CSV">
+                <i class="ph ph-download-simple"></i>
+                <span>Export CSV</span>
+              </button>
+              <button type="button" class="btn-header-primary" id="btnAddJob" title="Create a new job posting">
+                <i class="ph ph-plus"></i>
+                <span>Post a new job</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ── 4 Summary Cards Grid ───────────────────────────────────── -->
+          <div class="jobs-summary-cards">
+
+            <!-- 1. Published -->
+            <div class="summary-card">
+              <div class="summary-card-header">
+                <span class="summary-card-label">Published</span>
+                <span class="summary-card-icon icon--emerald">
+                  <i class="ph ph-check-circle"></i>
+                </span>
+              </div>
+              <div class="summary-card-value" id="cardCountPublished">9</div>
+              <div class="summary-card-footer">
+                <span class="summary-card-meta">Visible on the careers site</span>
+              </div>
+            </div>
+
+            <!-- 2. Pending review -->
+            <div class="summary-card">
+              <div class="summary-card-header">
+                <span class="summary-card-label">Pending review</span>
+                <span class="summary-card-icon icon--amber">
+                  <i class="ph ph-hourglass-high"></i>
+                </span>
+              </div>
+              <div class="summary-card-value" id="cardCountPending">6</div>
+              <div class="summary-card-footer">
+                <span class="summary-card-meta">Awaiting approval</span>
+              </div>
+            </div>
+
+            <!-- 3. Drafts -->
+            <div class="summary-card">
+              <div class="summary-card-header">
+                <span class="summary-card-label">Drafts</span>
+                <span class="summary-card-icon icon--slate">
+                  <i class="ph ph-file-dashed"></i>
+                </span>
+              </div>
+              <div class="summary-card-value" id="cardCountDrafts">4</div>
+              <div class="summary-card-footer">
+                <span class="summary-card-meta">Not yet submitted</span>
+              </div>
+            </div>
+
+            <!-- 4. Total jobs -->
+            <div class="summary-card">
+              <div class="summary-card-header">
+                <span class="summary-card-label">Total jobs</span>
+                <span class="summary-card-icon icon--blue">
+                  <i class="ph ph-briefcase"></i>
+                </span>
+              </div>
+              <div class="summary-card-value" id="cardCountTotal">21</div>
+              <div class="summary-card-footer">
+                <span class="summary-card-meta">Current requisitions</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ── Table Panel Container ──────────────────────────────────── -->
+          <div class="jobs-table-panel">
+
+            <!-- Toolbar: Search, 3 Filters & Count -->
+            <div class="jobs-toolbar">
+              <div class="toolbar-filter-cluster">
+                
+                <!-- Search Box -->
+                <div class="jobs-search-box">
+                  <i class="ph ph-magnifying-glass"></i>
+                  <input
+                    type="text"
+                    class="jobs-search-input"
+                    id="jobSearchInput"
+                    placeholder="Search title, department, location..."
+                    aria-label="Search job listings"
+                  />
+                </div>
+
+                <!-- 1. All statuses Filter -->
+                <div class="filter-dropdown-wrap">
+                  <button type="button" class="filter-trigger-btn" id="statusFilterTrigger" aria-haspopup="true" aria-expanded="false">
+                    <i class="ph ph-funnel"></i>
+                    <span id="statusFilterLabel">All statuses</span>
+                    <i class="ph ph-caret-down caret-icon"></i>
+                  </button>
+                  <div class="filter-menu-popover" id="statusFilterMenu">
+                    <div class="filter-menu-item is-active" data-value="all">All statuses</div>
+                    <div class="filter-menu-item" data-value="published">Published</div>
+                    <div class="filter-menu-item" data-value="pending">Pending review</div>
+                    <div class="filter-menu-item" data-value="draft">Draft</div>
+                    <div class="filter-menu-item" data-value="closed">Closed</div>
+                  </div>
+                </div>
+
+                <!-- 2. All creators Filter -->
+                <div class="filter-dropdown-wrap">
+                  <button type="button" class="filter-trigger-btn" id="creatorFilterTrigger" aria-haspopup="true" aria-expanded="false">
+                    <i class="ph ph-user"></i>
+                    <span id="creatorFilterLabel">All creators</span>
+                    <i class="ph ph-caret-down caret-icon"></i>
+                  </button>
+                  <div class="filter-menu-popover" id="creatorFilterMenu">
+                    <div class="filter-menu-item is-active" data-value="all">All creators</div>
+                    <div class="filter-menu-item" data-value="Sarah Mitchell">Sarah Mitchell</div>
+                    <div class="filter-menu-item" data-value="Marcus Webb">Marcus Webb</div>
+                    <div class="filter-menu-item" data-value="Priya Nair">Priya Nair</div>
+                    <div class="filter-menu-item" data-value="James Okafor">James Okafor</div>
+                    <div class="filter-menu-item" data-value="David Kim">David Kim</div>
+                    <div class="filter-menu-item" data-value="Elena Rostova">Elena Rostova</div>
+                    <div class="filter-menu-item" data-value="Liam Vance">Liam Vance</div>
+                  </div>
+                </div>
+
+                <!-- 3. All dates Filter -->
+                <div class="filter-dropdown-wrap">
+                  <button type="button" class="filter-trigger-btn" id="dateFilterTrigger" aria-haspopup="true" aria-expanded="false">
+                    <i class="ph ph-calendar"></i>
+                    <span id="dateFilterLabel">All dates</span>
+                    <i class="ph ph-caret-down caret-icon"></i>
+                  </button>
+                  <div class="filter-menu-popover" id="dateFilterMenu">
+                    <div class="filter-menu-item is-active" data-value="all">All dates</div>
+                    <div class="filter-menu-item" data-value="September 2026">September 2026</div>
+                    <div class="filter-menu-item" data-value="August 2026">August 2026</div>
+                    <div class="filter-menu-item" data-value="July 2026">July 2026</div>
+                    <div class="filter-menu-item" data-value="Earlier">Earlier</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Toolbar Counter -->
+              <div class="toolbar-counter-text" id="jobCountText">
+                Showing <strong>21</strong> of 21 jobs
+              </div>
+            </div>
+
+            <!-- ── 11-Column Table Layout ─────────────────────────────────── -->
+            <div class="table-responsive-wrap">
+              <table class="jobs-table" id="jobsTable">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 95px;">Job ID</th>
+                    <th scope="col" style="min-width: 220px;">Title</th>
+                    <th scope="col" style="width: 110px;">Submitted</th>
+                    <th scope="col" style="width: 110px;">Expiry</th>
+                    <th scope="col" style="width: 125px;">Status</th>
+                    <th scope="col" style="width: 95px;">Applicants</th>
+                    <th scope="col" style="width: 155px;">POC</th>
+                    <th scope="col" style="width: 130px;">Location</th>
+                    <th scope="col" style="width: 100px;">Type</th>
+                    <th scope="col" style="width: 85px;">Views</th>
+                    <th scope="col" style="width: 70px; text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="jobsTableBody">
+                  <!-- Rendered dynamically by js/job-listings.js -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Table Footer -->
+            <div class="jobs-table-footer">
+              <span id="jobFooterCount">Showing 1–21 of 21 jobs</span>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <button class="btn-action-dots" disabled title="Previous page" style="opacity: 0.45; cursor: not-allowed;">
+                  <i class="ph ph-caret-left"></i>
+                </button>
+                <button class="btn-action-dots" disabled title="Next page" style="opacity: 0.45; cursor: not-allowed;">
+                  <i class="ph ph-caret-right"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ── Add / Edit Job Requisition Modal ───────────────────────────────── -->
+  <div class="dialog-overlay" id="modalAddJob" aria-hidden="true" role="dialog">
+    <div class="dialog-panel">
+      <div class="dialog-header">
+        <h3 class="dialog-title" id="modalAddJobTitle">Post a New Job</h3>
+        <button type="button" class="btn-action-dots" id="btnCloseAddModal" title="Close" aria-label="Close dialog">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <div class="dialog-body">
+        <input type="hidden" id="editJobIdField" value="">
+        
+        <div class="dialog-form-group">
+          <label class="dialog-form-label" for="inputJobTitle">Job Title</label>
+          <input type="text" class="dialog-input" id="inputJobTitle" placeholder="e.g. Senior Cloud Security Architect">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="dialog-form-group">
+            <label class="dialog-form-label" for="selectJobDept">Department</label>
+            <select class="dialog-select" id="selectJobDept">
+              <option value="Engineering">Engineering</option>
+              <option value="Infrastructure">Infrastructure</option>
+              <option value="Security">Security</option>
+              <option value="AI Labs">AI Labs</option>
+              <option value="Product Design">Product Design</option>
+              <option value="DevOps">DevOps</option>
+              <option value="Solutions">Solutions</option>
+              <option value="Data Systems">Data Systems</option>
+              <option value="Operations">Operations</option>
+              <option value="Sales">Sales</option>
+              <option value="Finance">Finance</option>
+              <option value="Legal">Legal</option>
+            </select>
+          </div>
+
+          <div class="dialog-form-group">
+            <label class="dialog-form-label" for="selectJobType">Employment Type</label>
+            <select class="dialog-select" id="selectJobType">
+              <option value="Full-time">Full-time</option>
+              <option value="Contract">Contract</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Internship">Internship</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="dialog-form-group">
+            <label class="dialog-form-label" for="inputJobLocation">Location</label>
+            <input type="text" class="dialog-input" id="inputJobLocation" value="Remote" placeholder="e.g. Remote, New York, NY">
+          </div>
+
+          <div class="dialog-form-group">
+            <label class="dialog-form-label" for="selectJobPoc">Point of Contact (POC)</label>
+            <select class="dialog-select" id="selectJobPoc">
+              <option value="Sarah Mitchell">Sarah Mitchell (Operations)</option>
+              <option value="Marcus Webb">Marcus Webb (Infrastructure)</option>
+              <option value="Elena Rostova">Elena Rostova (Security)</option>
+              <option value="David Kim">David Kim (Engineering)</option>
+              <option value="Priya Nair">Priya Nair (AI Labs)</option>
+              <option value="James Okafor">James Okafor (Solutions)</option>
+              <option value="Liam Vance">Liam Vance (Sales)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button type="button" class="btn-header-ghost" id="btnCancelAddModal">Cancel</button>
+        <button type="button" class="btn-header-ghost" id="btnSaveDraft" style="background-color: #f8fafc;">Save as Draft</button>
+        <button type="button" class="btn-header-primary" id="btnSubmitJob">Submit Requisition</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Delete Confirmation Modal ──────────────────────────────────────── -->
+  <div class="dialog-overlay" id="modalDelete" aria-hidden="true" role="dialog">
+    <div class="dialog-panel" style="max-width: 440px;">
+      <div class="dialog-header">
+        <h3 class="dialog-title" style="color: #be123c;">Delete Job Requisition</h3>
+        <button type="button" class="btn-action-dots" id="btnCloseDeleteModal" title="Close">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <div class="dialog-body">
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+          Are you sure you want to permanently delete job requisition <strong id="deleteTargetId" style="color: var(--text-primary);">#JOB-000</strong>? This action cannot be undone.
+        </p>
+      </div>
+      <div class="dialog-footer">
+        <button type="button" class="btn-header-ghost" id="btnCancelDelete">Cancel</button>
+        <button type="button" class="btn-header-primary" id="btnConfirmDelete" style="background-color: #e11d48; border-color: #e11d48;">Delete Requisition</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Global Toast Notification ──────────────────────────────────────── -->
+  <div class="jobs-toast" id="jobsToast" role="status" aria-live="polite">
+    <i class="ph ph-check-circle"></i>
+    <span id="jobsToastMsg">Action completed successfully</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/components.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/job-listings.js"></script>
+</body>
+</html>

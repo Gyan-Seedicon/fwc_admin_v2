@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Blog Post | FWC Admin Portal</title>
+  <meta name="description" content="Medium-style editorial writing canvas for publishing blog posts and articles in the FWC Admin Portal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/blog-editor.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Global FWC Header -->
+    <fwc-header
+      page-title="Blog Posts"
+      page-subtitle="Editorial Creation & Publishing Studio">
+    </fwc-header>
+
+    <div class="app-body">
+      <!-- Global FWC Sidebar (active: blog-posts) -->
+      <fwc-sidebar active="blog-posts"></fwc-sidebar>
+
+      <!-- Main Workspace Viewport -->
+      <main class="main-viewport" id="mainContent">
+        <div class="blog-editor-surface">
+
+          <!-- ── Sticky Minimal Topbar ──────────────────────────────────── -->
+          <header class="editor-topbar">
+            
+            <!-- Left: Back link & Auto-save Status -->
+            <div class="editor-topbar-left">
+              <a href="blog-posts.html" class="btn-back-nav" title="Return to Blog Posts list">
+                <i class="ph ph-arrow-left"></i>
+                <span>Blog posts</span>
+              </a>
+              <span style="color: var(--border-strong);">/</span>
+              <div class="editor-status-indicator is-saved" id="editorStatusIndicator">
+                <span class="editor-status-dot"></span>
+                <span id="editorStatusText">Draft saved</span>
+              </div>
+            </div>
+
+            <!-- Right: Auto-fill, Preview, Save Draft, Publish -->
+            <div class="editor-topbar-right">
+              <button type="button" class="btn-autofill" id="btnAutoFill" title="Auto-fill sample article content">
+                <i class="ph ph-sparkle"></i>
+                <span>Auto fill</span>
+              </button>
+              <button type="button" class="btn-editor-preview" id="btnEditorPreview" title="Preview article layout">
+                <i class="ph ph-eye"></i>
+                <span>Preview</span>
+              </button>
+              <button type="button" class="btn-save-draft" id="btnSaveDraft" title="Save changes as draft">
+                <i class="ph ph-floppy-disk"></i>
+                <span>Save as draft</span>
+              </button>
+              <button type="button" class="btn-publish-primary" id="btnPublishPrimary" title="Publish or submit for review">
+                <i class="ph ph-paper-plane-tilt"></i>
+                <span>Publish</span>
+              </button>
+            </div>
+          </header>
+
+          <!-- ── Centered Seamless Editorial Canvas ─────────────────────── -->
+          <div class="editor-canvas-wrap">
+
+            <!-- 1. 1920x1080 Feature Banner Upload Placeholder -->
+            <div class="banner-upload-container">
+              
+              <!-- Hidden File Input -->
+              <input type="file" id="bannerFileInput" accept="image/*" style="display: none;">
+
+              <!-- Clean Dropzone Placeholder -->
+              <div class="banner-dropzone" id="bannerDropzone">
+                <div class="banner-icon-badge">
+                  <i class="ph ph-image"></i>
+                </div>
+                <div>
+                  <div class="banner-prompt-title">Upload Feature Banner Image</div>
+                  <div class="banner-prompt-sub">
+                    Drag and drop your high-resolution banner image here or browse files.
+                  </div>
+                </div>
+                <div class="banner-badge-dimension">
+                  <i class="ph ph-aspect-ratio"></i> 1920 &times; 1080 px (16:9 Recommended)
+                </div>
+                <div class="banner-action-buttons">
+                  <button type="button" class="btn-banner-browse">
+                    <i class="ph ph-folder-open"></i> Browse Files
+                  </button>
+                  <button type="button" class="btn-banner-sample" id="btnUseSampleBanner">
+                    <i class="ph ph-sparkle"></i> Use Sample Banner
+                  </button>
+                </div>
+              </div>
+
+              <!-- Live Banner Preview Box -->
+              <div class="banner-preview-box" id="bannerPreviewBox">
+                <img src="" alt="Feature Banner" class="banner-preview-img" id="bannerPreviewImg">
+                <div class="banner-overlay-actions">
+                  <button type="button" class="btn-banner-action" id="btnChangeBanner">
+                    <i class="ph ph-pencil-simple"></i> Change Image
+                  </button>
+                  <button type="button" class="btn-banner-action btn-banner-action--delete" id="btnRemoveBanner">
+                    <i class="ph ph-trash"></i> Remove
+                  </button>
+                </div>
+                <input
+                  type="text"
+                  class="banner-caption-input"
+                  id="bannerCaptionInput"
+                  placeholder="Type caption for header image (optional)"
+                />
+              </div>
+
+            </div>
+
+            <!-- 2. Medium-Style Title & Seamless Metadata Tags Row -->
+            <div class="editor-title-container">
+
+              <!-- Large Title Input (DM Sans) -->
+              <textarea
+                class="editor-title-input"
+                id="editorTitleInput"
+                rows="1"
+                placeholder="Title"
+                aria-label="Article Title"
+              ></textarea>
+
+              <!-- Seamless Metadata Tags (No Card, No Headings) -->
+              <div class="editor-meta-row">
+                
+                <!-- Content Type Pill -->
+                <div class="editor-meta-pill" title="Content Type">
+                  <i class="ph ph-article"></i>
+                  <select class="editor-meta-select" id="editorContentType">
+                    <option value="Article" selected>Article</option>
+                    <option value="Blog post">Blog post</option>
+                    <option value="Guide">Guide</option>
+                    <option value="Case study">Case study</option>
+                    <option value="Thought Leadership">Thought Leadership</option>
+                    <option value="Industry News">Industry News</option>
+                  </select>
+                </div>
+
+                <!-- Category Pill -->
+                <div class="editor-meta-pill" title="Category">
+                  <i class="ph ph-folder"></i>
+                  <select class="editor-meta-select" id="editorCategory">
+                    <option value="Industry Insights" selected>Industry Insights</option>
+                    <option value="Cloud Architecture">Cloud Architecture</option>
+                    <option value="Artificial Intelligence">Artificial Intelligence</option>
+                    <option value="Supply Chain">Supply Chain</option>
+                    <option value="Cybersecurity">Cybersecurity</option>
+                    <option value="Cloud Services">Cloud Services</option>
+                    <option value="Edge Computing">Edge Computing</option>
+                    <option value="UI/UX Design">UI/UX Design</option>
+                    <option value="Data Systems">Data Systems</option>
+                    <option value="Web Engineering">Web Engineering</option>
+                  </select>
+                </div>
+
+                <!-- Permalink Slug Pill -->
+                <div class="editor-meta-pill editor-meta-pill--permalink" title="Article Permalink">
+                  <i class="ph ph-link-simple"></i>
+                  <span class="permalink-slug-prefix">/blog/</span>
+                  <input
+                    type="text"
+                    class="permalink-slug-input"
+                    id="editorPermalinkInput"
+                    value="untitled-post"
+                    placeholder="post-slug"
+                  />
+                  <button type="button" class="btn-copy-slug" id="btnCopySlug" title="Copy full URL">
+                    <i class="ph ph-copy"></i>
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- 3. Medium-Style Inline (+) / (X) Insert Toolbar (Exact Match) -->
+            <div class="medium-insert-container" id="mediumInsertContainer">
+              
+              <!-- (+) / (X) Toggle Button -->
+              <button
+                type="button"
+                class="medium-plus-btn"
+                id="mediumPlusBtn"
+                title="Add content blocks"
+                aria-label="Add content blocks"
+              >
+                <i class="ph ph-plus"></i>
+              </button>
+
+              <!-- 6 Green Outlined Circular Action Buttons -->
+              <div class="medium-inline-actions" id="mediumInlineActions">
+                
+                <!-- 1. Add Image -->
+                <button
+                  type="button"
+                  class="btn-medium-circle"
+                  id="btnInsertImage"
+                  data-tooltip="Add an image"
+                  title="Add an image"
+                >
+                  <i class="ph ph-image"></i>
+                </button>
+
+                <!-- 2. Add from Unsplash -->
+                <button
+                  type="button"
+                  class="btn-medium-circle"
+                  id="btnInsertUnsplash"
+                  data-tooltip="Add an image from Unsplash"
+                  title="Add an image from Unsplash"
+                >
+                  <i class="ph ph-camera"></i>
+                </button>
+
+                <!-- 3. Add Video -->
+                <button
+                  type="button"
+                  class="btn-medium-circle"
+                  id="btnInsertVideo"
+                  data-tooltip="Add a video"
+                  title="Add a video"
+                >
+                  <i class="ph ph-play-circle"></i>
+                </button>
+
+                <!-- 4. Add Embed -->
+                <button
+                  type="button"
+                  class="btn-medium-circle"
+                  id="btnInsertEmbed"
+                  data-tooltip="Add an embed"
+                  title="Add an embed"
+                >
+                  <i class="ph ph-code"></i>
+                </button>
+
+                <!-- 5. Add Code Block -->
+                <button
+                  type="button"
+                  class="btn-medium-circle"
+                  id="btnInsertCode"
+                  data-tooltip="Add a new code block"
+                  title="Add a new code block"
+                >
+                  <i class="ph ph-brackets-curly"></i>
+                </button>
+
+                <!-- 6. Add Section Divider -->
+                <button
+                  type="button"
+                  class="btn-medium-circle"
+                  id="btnInsertDivider"
+                  data-tooltip="Add a section break"
+                  title="Add a section break"
+                >
+                  <i class="ph ph-dots-three"></i>
+                </button>
+
+              </div>
+            </div>
+
+            <!-- 4. Medium Rich Text Body Content Area (DM Sans) -->
+            <div
+              class="editor-body-content"
+              id="editorBody"
+              contenteditable="true"
+              placeholder="Tell your story..."
+              aria-label="Story Body Content"
+            >
+              <p>Start writing your editorial article here. Select any text to reveal rich formatting tools like bold, italics, headings, quotes, and links. Use the (+) tool above to insert photos, videos, code blocks, or dividers.</p>
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ── Floating Selection Bubble Menu (Appears ONLY on Selection) ───────── -->
+  <div class="editor-bubble-menu" id="editorBubbleMenu">
+    <button type="button" class="btn-bubble" data-command="bold" title="Bold">
+      <i class="ph ph-text-b"></i>
+    </button>
+    <button type="button" class="btn-bubble" data-command="italic" title="Italic">
+      <i class="ph ph-text-italic"></i>
+    </button>
+    <button type="button" class="btn-bubble" data-command="underline" title="Underline">
+      <i class="ph ph-text-underline"></i>
+    </button>
+    <div class="bubble-divider"></div>
+    <button type="button" class="btn-bubble" data-command="formatBlock" data-value="h2" title="Heading">
+      <i class="ph ph-text-h-two"></i>
+    </button>
+    <button type="button" class="btn-bubble" data-command="formatBlock" data-value="h3" title="Subheading">
+      <i class="ph ph-text-h-three"></i>
+    </button>
+    <button type="button" class="btn-bubble" data-command="formatBlock" data-value="blockquote" title="Quote">
+      <i class="ph ph-quotes"></i>
+    </button>
+    <div class="bubble-divider"></div>
+    <button type="button" class="btn-bubble" data-command="createLink" title="Add Link">
+      <i class="ph ph-link-simple"></i>
+    </button>
+    <button type="button" class="btn-bubble" data-command="formatBlock" data-value="pre" title="Code snippet">
+      <i class="ph ph-code"></i>
+    </button>
+  </div>
+
+  <!-- ── Preview Modal ──────────────────────────────────────────────────── -->
+  <div class="editor-modal-overlay" id="previewModal" aria-hidden="true" role="dialog">
+    <div class="editor-modal-panel">
+      <div class="editor-modal-header">
+        <h3 class="editor-modal-title">Live Article Preview</h3>
+        <button type="button" class="btn-action-dots" id="btnClosePreview" title="Close preview">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <div class="editor-modal-body" id="previewContentArea">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="editor-modal-footer">
+        <button type="button" class="btn-header-ghost" id="btnClosePreviewBottom">Close Preview</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Publish Confirmation Modal ─────────────────────────────────────── -->
+  <div class="editor-modal-overlay" id="publishModal" aria-hidden="true" role="dialog">
+    <div class="editor-modal-panel" style="max-width: 480px;">
+      <div class="editor-modal-header">
+        <h3 class="editor-modal-title">Ready to Publish?</h3>
+        <button type="button" class="btn-action-dots" id="btnClosePublishModal" title="Close">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <div class="editor-modal-body">
+        <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+          Your blog post <strong id="publishDialogTitle" style="color: var(--text-primary);">Untitled Post</strong> will be submitted to the editorial review queue for final approval and publication.
+        </p>
+      </div>
+      <div class="editor-modal-footer">
+        <button type="button" class="btn-header-ghost" id="btnCancelPublish">Cancel</button>
+        <button type="button" class="btn-publish-primary" id="btnConfirmPublish">Submit & Publish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toast Notification ─────────────────────────────────────────────── -->
+  <div class="blog-toast" id="editorToast" role="status" aria-live="polite">
+    <i class="ph ph-check-circle"></i>
+    <span id="editorToastMsg">Saved successfully</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/components.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/blog-editor.js"></script>
+</body>
+</html>

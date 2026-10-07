@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Approval Requests | FWC Admin Portal</title>
+  <meta name="description" content="Review, approve, or reject incoming job postings, blog articles, and undo operations in the FWC Admin Portal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/approvals.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Global FWC Header -->
+    <fwc-header
+      page-title="Approval Requests"
+      page-subtitle="Review and manage pending jobs, blog posts, and system rollback requests">
+    </fwc-header>
+
+    <div class="app-body">
+      <!-- Global FWC Sidebar -->
+      <fwc-sidebar active="approval-requests"></fwc-sidebar>
+
+      <!-- Main Workspace Viewport -->
+      <main class="main-viewport" id="mainContent">
+        <div class="approvals-surface">
+
+          <!-- ── Page Header ─────────────────────────────────────────────── -->
+          <div class="approvals-header">
+            <div class="approvals-title-group">
+              <h1 class="approvals-title">Approval Requests</h1>
+              <p class="approvals-sub">Review, approve, or request revisions for submissions across jobs, blogs, and system changes.</p>
+            </div>
+          </div>
+
+          <!-- ── Summary Cards (4-Column Grid) ───────────────────────────── -->
+          <div class="approvals-summary-cards">
+
+            <!-- 1. Total Pending -->
+            <div class="summary-card">
+              <div class="summary-card-header">
+                <span class="summary-card-label">Total Pending</span>
+                <span class="summary-card-icon icon--amber-glow">
+                  <i class="ph ph-hourglass-high"></i>
+                </span>
+              </div>
+              <div class="summary-card-value" id="countTotalPending">15</div>
+              <div class="summary-card-footer">
+                <span class="summary-card-meta">Across all categories</span>
+              </div>
+            </div>
+
+            <!-- 2. Pending Jobs -->
+            <div class="summary-card">
+              <div class="summary-card-header">
+                <span class="summary-card-label">Pending Jobs</span>
+                <span class="summary-card-icon icon--indigo">
+                  <i class="ph ph-briefcase"></i>
+                </span>
+              </div>
+              <div class="summary-card-value" id="countPendingJobs">7</div>
+              <div class="summary-card-footer">
+                <span class="summary-card-meta">Candidate & hiring listings</span>
+              </div>
+            </div>
+
+            <!-- 3. Pending Blog Posts -->
+            <div class="summary-card">
+              <div class="summary-card-header">
+                <span class="summary-card-label">Pending Blog Posts</span>
+                <span class="summary-card-icon icon--violet">
+                  <i class="ph ph-article"></i>
+                </span>
+              </div>
+              <div class="summary-card-value" id="countPendingBlogs">4</div>
+              <div class="summary-card-footer">
+                <span class="summary-card-meta">Articles & editorial drafts</span>
+              </div>
+            </div>
+
+            <!-- 4. Undo Requests -->
+            <div class="summary-card">
+              <div class="summary-card-header">
+                <span class="summary-card-label">Undo Requests</span>
+                <span class="summary-card-icon icon--rose">
+                  <i class="ph ph-arrow-counter-clockwise"></i>
+                </span>
+              </div>
+              <div class="summary-card-value" id="countUndoRequests">4</div>
+              <div class="summary-card-footer">
+                <span class="summary-card-meta">Rollback & revert actions</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ── Approvals Table Panel Container ─────────────────────────── -->
+          <div class="approvals-table-panel">
+
+            <!-- Toolbar: Search, Type Filter Dropdown, & Queue Count -->
+            <div class="approvals-toolbar">
+              <div class="toolbar-left-group">
+                
+                <!-- Live Search Box -->
+                <div class="approvals-search-box">
+                  <i class="ph ph-magnifying-glass"></i>
+                  <input
+                    type="text"
+                    class="approvals-search-input"
+                    id="approvalsSearchInput"
+                    placeholder="Search by title, ID, submitter…"
+                    aria-label="Search approval requests"
+                  />
+                </div>
+
+                <!-- Type Filter Dropdown (Jobs, Blogs, Undo) -->
+                <div class="table-filter-wrap">
+                  <button
+                    type="button"
+                    class="table-filter-trigger"
+                    id="typeFilterTrigger"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i class="ph ph-funnel"></i>
+                    <span id="typeFilterLabel">All Types</span>
+                    <i class="ph ph-caret-down caret-icon"></i>
+                  </button>
+
+                  <div class="table-filter-dropdown" id="typeFilterDropdown">
+                    <div class="filter-option is-selected" data-type="all">
+                      <span>All Types</span>
+                      <span class="filter-count-badge" id="filterBadgeAll">15</span>
+                    </div>
+                    <div class="filter-option" data-type="job">
+                      <span>Jobs</span>
+                      <span class="filter-count-badge" id="filterBadgeJobs">7</span>
+                    </div>
+                    <div class="filter-option" data-type="blog">
+                      <span>Blog Posts</span>
+                      <span class="filter-count-badge" id="filterBadgeBlogs">4</span>
+                    </div>
+                    <div class="filter-option" data-type="undo">
+                      <span>Undo Requests</span>
+                      <span class="filter-count-badge" id="filterBadgeUndo">4</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Toolbar Right: Number of Requests -->
+              <div class="toolbar-right-group">
+                <span class="queue-count-text" id="queueCountText">
+                  Showing <strong>15</strong> of 15 requests
+                </span>
+              </div>
+            </div>
+
+            <!-- Modern Condensed Table (Single Rows Only) -->
+            <div class="table-responsive-wrap">
+              <table class="modern-table" id="approvalsTable">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 110px;">Type</th>
+                    <th scope="col">Title</th>
+                    <th scope="col" style="width: 105px;">ID</th>
+                    <th scope="col" style="width: 160px;">Submitted by</th>
+                    <th scope="col" style="width: 125px;">Submitted on</th>
+                    <th scope="col" style="width: 140px;">Status</th>
+                    <th scope="col" style="width: 100px; text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="approvalsTableBody">
+                  <!-- Rendered dynamically by js/approvals.js -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Table Footer: Pagination & Info -->
+            <div class="approvals-table-footer">
+              <span id="footerCountInfo">Showing 1–15 of 15 requests</span>
+              <div class="pagination-controls">
+                <button class="btn-page-nav" disabled title="Previous page" aria-label="Previous page">
+                  <i class="ph ph-caret-left"></i>
+                </button>
+                <button class="btn-page-nav" disabled title="Next page" aria-label="Next page">
+                  <i class="ph ph-caret-right"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ── Review Modal / Drawer ────────────────────────────────────────────── -->
+  <div class="review-modal-overlay" id="reviewModalOverlay" aria-hidden="true" role="dialog" aria-labelledby="modalItemTitle">
+    <div class="review-modal-panel">
+      
+      <!-- Modal Header -->
+      <div class="review-modal-header">
+        <div class="modal-header-title-group">
+          <span class="modal-title">Review Submission</span>
+          <span class="modal-id-badge" id="modalItemId">#ID</span>
+        </div>
+        <button class="btn-modal-close" id="btnModalClose" type="button" title="Close modal" aria-label="Close modal">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="review-modal-body">
+        
+        <div class="modal-info-grid">
+          <div class="modal-info-item">
+            <span class="modal-info-label">Type & Category</span>
+            <span class="modal-info-value" id="modalItemType">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">Status</span>
+            <span class="modal-info-value" id="modalItemStatus">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">Submitted By</span>
+            <span class="modal-info-value" id="modalItemSubmitter">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">Submitted On</span>
+            <span class="modal-info-value" id="modalItemDate">—</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="modal-section-heading">Submission Title</div>
+          <div class="modal-content-box" style="font-weight: 600; color: var(--text-primary);" id="modalItemTitle">
+            —
+          </div>
+        </div>
+
+        <div>
+          <div class="modal-section-heading">Summary & Context</div>
+          <div class="modal-content-box" id="modalItemSummary">
+            —
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer Actions -->
+      <div class="review-modal-footer">
+        <div class="modal-footer-left">
+          <button class="btn-modal-action btn-modal-action--reject" id="btnModalReject" type="button">
+            <i class="ph ph-x"></i> Reject
+          </button>
+        </div>
+        <div class="modal-footer-right">
+          <button class="btn-modal-action btn-modal-action--changes" id="btnModalChanges" type="button">
+            <i class="ph ph-arrow-counter-clockwise"></i> Request Changes
+          </button>
+          <button class="btn-modal-action btn-modal-action--primary" id="btnModalApprove" type="button">
+            <i class="ph ph-check"></i> Approve & Publish
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Container (managed by js/approvals.js) -->
+  <div id="apprToast" class="appr-toast" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="js/components.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/approvals.js"></script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | FWC Admin Portal</title>
+  <meta name="description" content="FWC Admin Portal — Overview of portal activity, website performance metrics, and pending actions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <fwc-header
+      page-title="Dashboard"
+      page-subtitle="Overview of portal activity, performance metrics, and pending actions">
+    </fwc-header>
+
+    <div class="app-body">
+      <fwc-sidebar active="dashboard"></fwc-sidebar>
+
+      <main class="main-viewport" id="mainContent">
+        <div class="dashboard-surface">
+
+          <!-- ── Greeting Row ──────────────────────────────────────────────── -->
+          <div class="dashboard-greeting">
+            <div class="greeting-text-group">
+              <h1 class="greeting-welcome">Welcome back, <span>FWC Administrator</span> 👋</h1>
+              <p class="greeting-sub">Here's what's happening across your portal today.</p>
+            </div>
+            <div class="greeting-date">
+              <i class="ph ph-calendar-blank"></i>
+              <span id="greetingDate"></span>
+            </div>
+          </div>
+
+          <!-- ── Tabs ──────────────────────────────────────────────────────── -->
+          <div class="dashboard-tabs" role="tablist">
+            <button class="dash-tab is-active" role="tab" data-tab="tab-website"
+                    id="tab-btn-website" aria-controls="tab-website" aria-selected="true">
+              <i class="ph ph-globe"></i>
+              Website Performance
+            </button>
+            <button class="dash-tab" role="tab" data-tab="tab-employee"
+                    id="tab-btn-employee" aria-controls="tab-employee" aria-selected="false">
+              <i class="ph ph-users"></i>
+              Employee Performance
+            </button>
+          </div>
+
+          <!-- ── Tab Panel: Website Performance ───────────────────────────── -->
+          <div class="tab-panel is-active" id="tab-website" role="tabpanel"
+               aria-labelledby="tab-btn-website">
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+
+              <!-- Website Visitors -->
+              <div class="summary-card">
+                <div class="summary-card-header">
+                  <span class="summary-card-label">Website Visitors</span>
+                  <span class="summary-card-icon is-blue">
+                    <i class="ph ph-users"></i>
+                  </span>
+                </div>
+                <div class="summary-card-value">526</div>
+                <div class="summary-card-footer">
+                  <span class="summary-card-meta">Last 30 days</span>
+                </div>
+              </div>
+
+              <!-- Candidate Applications -->
+              <div class="summary-card">
+                <div class="summary-card-header">
+                  <span class="summary-card-label">Candidate Applications</span>
+                  <span class="summary-card-icon">
+                    <i class="ph ph-file-text"></i>
+                  </span>
+                </div>
+                <div class="summary-card-value">10</div>
+                <div class="summary-card-footer">
+                  <span class="summary-card-meta">Last 30 days</span>
+                  <a href="job-listings.html" class="summary-card-link">
+                    View jobs <i class="ph ph-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Enquiries -->
+              <div class="summary-card">
+                <div class="summary-card-header">
+                  <span class="summary-card-label">Enquiries</span>
+                  <span class="summary-card-icon">
+                    <i class="ph ph-chat-circle"></i>
+                  </span>
+                </div>
+                <div class="summary-card-value">1</div>
+                <div class="summary-card-footer">
+                  <span class="summary-card-meta">Pending response</span>
+                  <a href="enquiries.html" class="summary-card-link">
+                    View enquiries <i class="ph ph-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Pending Moderation -->
+              <div class="summary-card summary-card--pending">
+                <div class="summary-card-header">
+                  <span class="summary-card-label">Pending Moderation</span>
+                  <span class="summary-card-icon is-amber">
+                    <i class="ph ph-warning"></i>
+                  </span>
+                </div>
+                <div class="summary-card-value">11</div>
+                <div class="summary-card-footer">
+                  <span class="summary-card-meta">7 jobs · 4 blog posts</span>
+                  <a href="approval-requests.html" class="summary-card-link">
+                    Review queue <i class="ph ph-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+            <!-- /Summary Cards -->
+
+            <!-- Charts Row -->
+            <div class="charts-row">
+
+              <!-- Traffic & Applications Line Chart -->
+              <div class="chart-panel">
+                <div class="chart-panel-header">
+                  <div class="chart-panel-title-group">
+                    <span class="chart-panel-title">Traffic &amp; Applications</span>
+                    <span class="chart-panel-sub">Daily breakdown for selected period</span>
+                  </div>
+                  <div class="time-filter-group">
+                    <button class="time-filter-btn" data-range="7" type="button">7d</button>
+                    <button class="time-filter-btn is-active" data-range="30" type="button">30d</button>
+                    <button class="time-filter-btn" data-range="90" type="button">90d</button>
+                  </div>
+                </div>
+
+                <!-- Legend & summary stats -->
+                <div class="chart-legend-row">
+                  <div class="chart-legend-item">
+                    <span class="chart-legend-dot chart-legend-dot--blue"></span>
+                    Visitors
+                  </div>
+                  <div class="chart-legend-item">
+                    <span class="chart-legend-dot chart-legend-dot--slate"></span>
+                    Applications
+                  </div>
+                  <div class="chart-stat-summary">
+                    <span class="chart-stat-pill">
+                      <strong>526</strong> visitors
+                    </span>
+                    <span class="chart-stat-pill">
+                      <strong>10</strong> applications
+                    </span>
+                  </div>
+                </div>
+
+                <div class="chart-body">
+                  <div id="trafficChart" style="height:100%;min-height:220px;"></div>
+                </div>
+              </div>
+
+              <!-- Traffic Sources Donut Chart -->
+              <div class="chart-panel">
+                <div class="chart-panel-header">
+                  <div class="chart-panel-title-group">
+                    <span class="chart-panel-title">Traffic Sources</span>
+                    <span class="chart-panel-sub">526 total landing visitors</span>
+                  </div>
+                </div>
+
+                <div class="traffic-panel-body">
+                  <div class="traffic-donut-area">
+                    <div id="donutChart"></div>
+                  </div>
+
+                  <div class="traffic-sources-list" id="trafficSourcesList">
+                    <!-- Populated by dashboard.js -->
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- /Charts Row -->
+
+          </div>
+          <!-- /Tab Panel: Website Performance -->
+
+          <!-- ── Tab Panel: Employee Performance ────────────────────────────── -->
+          <div class="tab-panel" id="tab-employee" role="tabpanel"
+               aria-labelledby="tab-btn-employee">
+
+            <!-- Employee Performance Header Bar: Context on Left, Filters on Right -->
+            <div class="ep-header-bar">
+              <div class="ep-heading-group">
+                <h2 class="ep-heading" id="epHeading">Reviewing performance of <strong id="epHeadingName">All Employees</strong></h2>
+                <p class="ep-heading-sub" id="epHeadingSub">Select employee or role to see the performance</p>
+              </div>
+
+              <div class="ep-header-filters">
+                <!-- 1. Separate Role Dropdown -->
+                <div class="ep-selector-wrap" id="epRoleWrap">
+                  <div class="ep-selector-trigger" id="epRoleTrigger" tabindex="0" role="combobox"
+                       aria-expanded="false" aria-controls="epRoleDropdown" aria-haspopup="listbox" title="Filter by Role">
+                    <i class="ph ph-funnel ep-selector-icon"></i>
+                    <span class="ep-selector-value" id="epRoleValue">All Roles</span>
+                    <i class="ph ph-caret-down ep-selector-caret"></i>
+                  </div>
+                  <div class="ep-dropdown" id="epRoleDropdown" role="listbox" aria-label="Filter by Role">
+                    <div class="ep-dropdown-item is-selected" role="option" data-role="all" tabindex="-1">
+                      <i class="ph ph-squares-four"></i>
+                      <span>All Roles</span>
+                      <span class="ep-badge">All</span>
+                    </div>
+                    <div class="ep-dropdown-item" role="option" data-role="Content Writer" tabindex="-1">
+                      <i class="ph ph-article"></i>
+                      <span>Content Writers</span>
+                      <span class="ep-badge">2 members</span>
+                    </div>
+                    <div class="ep-dropdown-item" role="option" data-role="Recruiter" tabindex="-1">
+                      <i class="ph ph-briefcase"></i>
+                      <span>Recruiters</span>
+                      <span class="ep-badge">2 members</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2. Separate Employee Dropdown -->
+                <div class="ep-selector-wrap" id="epEmployeeWrap">
+                  <div class="ep-selector-trigger" id="epEmployeeTrigger" tabindex="0" role="combobox"
+                       aria-expanded="false" aria-controls="epEmployeeDropdown" aria-haspopup="listbox" title="Select Employee">
+                    <div class="ep-avatar-xs" id="epCurrentAvatar">ALL</div>
+                    <span class="ep-selector-value" id="epEmployeeValue">All Employees</span>
+                    <i class="ph ph-caret-down ep-selector-caret"></i>
+                  </div>
+                  <div class="ep-dropdown ep-dropdown--searchable" id="epEmployeeDropdown" role="listbox" aria-label="Select employee">
+                    <div class="ep-search-wrap">
+                      <i class="ph ph-magnifying-glass"></i>
+                      <input type="text" class="ep-search-input" id="epEmployeeSearch"
+                             placeholder="Search employee by name..." autocomplete="off">
+                    </div>
+                    <div class="ep-employee-list-scroll" id="epEmployeeList">
+                      <!-- Dynamically populated by dashboard.js -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Period Badge -->
+                <div class="ep-period-badge">
+                  <i class="ph ph-calendar-blank"></i>
+                  <span>Last 30 days</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+              <div class="summary-card">
+                <div class="summary-card-header">
+                  <span class="summary-card-label">Jobs Posted</span>
+                  <span class="summary-card-icon ep-icon--indigo">
+                    <i class="ph ph-briefcase"></i>
+                  </span>
+                </div>
+                <div class="summary-card-value" id="epCardJobs">11</div>
+                <div class="summary-card-footer">
+                  <span class="summary-card-meta" id="epCardJobsMeta">All team posts</span>
+                  <a href="job-listings.html" class="summary-card-link">View jobs <i class="ph ph-arrow-right"></i></a>
+                </div>
+              </div>
+
+              <div class="summary-card">
+                <div class="summary-card-header">
+                  <span class="summary-card-label">Blogs Posted</span>
+                  <span class="summary-card-icon ep-icon--violet">
+                    <i class="ph ph-article"></i>
+                  </span>
+                </div>
+                <div class="summary-card-value" id="epCardBlogs">5</div>
+                <div class="summary-card-footer">
+                  <span class="summary-card-meta" id="epCardBlogsMeta">All team posts</span>
+                  <a href="blog-posts.html" class="summary-card-link">View blogs <i class="ph ph-arrow-right"></i></a>
+                </div>
+              </div>
+
+              <div class="summary-card">
+                <div class="summary-card-header">
+                  <span class="summary-card-label">Candidates Assigned</span>
+                  <span class="summary-card-icon ep-icon--teal">
+                    <i class="ph ph-user-check"></i>
+                  </span>
+                </div>
+                <div class="summary-card-value" id="epCardCandidates">31</div>
+                <div class="summary-card-footer">
+                  <span class="summary-card-meta" id="epCardCandidatesMeta">Total in pipeline</span>
+                </div>
+              </div>
+
+              <div class="summary-card">
+                <div class="summary-card-header">
+                  <span class="summary-card-label">New Assignments</span>
+                  <span class="summary-card-icon ep-icon--amber">
+                    <i class="ph ph-sparkle"></i>
+                  </span>
+                </div>
+                <div class="summary-card-value" id="epCardNewAssign">27</div>
+                <div class="summary-card-footer">
+                  <span class="summary-card-meta" id="epCardNewAssignMeta">This period</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Metrics + Charts Row -->
+            <div class="ep-charts-row">
+
+              <!-- Candidate Pipeline Donut -->
+              <div class="chart-panel ep-pipeline-panel">
+                <div class="chart-panel-header">
+                  <div class="chart-panel-title-group">
+                    <span class="chart-panel-title">Candidate Pipeline</span>
+                    <span class="chart-panel-sub" id="epPipelineSub">Breakdown of 31 assigned candidates</span>
+                  </div>
+                </div>
+                <div class="ep-pipeline-body">
+                  <div class="ep-donut-wrap">
+                    <div id="epPipelineChart"></div>
+                  </div>
+                  <div class="ep-pipeline-legend" id="epPipelineLegend">
+                    <!-- Populated by JS -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Contributions & Assignments Line Graph -->
+              <div class="chart-panel ep-content-panel">
+                <div class="chart-panel-header">
+                  <div class="chart-panel-title-group">
+                    <span class="chart-panel-title">Contributions &amp; Assignments</span>
+                    <span class="chart-panel-sub" id="epContentSub">Weekly trend of jobs, blogs, and new assignments</span>
+                  </div>
+                  <div class="chart-legend-inline" id="epTrendLegend">
+                    <span class="chart-legend-item"><span class="chart-legend-dot" style="background:#133484;"></span>Jobs</span>
+                    <span class="chart-legend-item"><span class="chart-legend-dot" style="background:#8b5cf6;"></span>Blogs</span>
+                    <span class="chart-legend-item"><span class="chart-legend-dot" style="background:#0d9488;"></span>New Assignments</span>
+                  </div>
+                </div>
+                <div class="chart-body ep-chart-body-full">
+                  <div id="epContentChart"></div>
+                </div>
+              </div>
+
+            </div>
+            <!-- /Metrics + Charts Row -->
+
+            <!-- Submissions + Activity Row -->
+            <div class="ep-bottom-row">
+
+              <!-- Submissions List -->
+              <div class="chart-panel ep-submissions-panel">
+                <div class="chart-panel-header">
+                  <div class="chart-panel-title-group">
+                    <span class="chart-panel-title">Submissions</span>
+                    <span class="chart-panel-sub" id="epSubmissionsSub">5 pending · 1 approved</span>
+                  </div>
+                </div>
+                <div class="ep-submissions-list" id="epSubmissionsList">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <!-- Activity Timeline -->
+              <div class="chart-panel ep-activity-panel">
+                <div class="chart-panel-header">
+                  <div class="chart-panel-title-group">
+                    <span class="chart-panel-title">Activity</span>
+                    <span class="chart-panel-sub" id="epActivitySub">Recent notifications &amp; updates</span>
+                  </div>
+                </div>
+                <div class="ep-activity-list" id="epActivityList">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+            </div>
+            <!-- /Submissions + Activity Row -->
+
+          </div>
+          <!-- /Tab Panel: Employee Performance -->
+
+
+        </div>
+        <!-- /dashboard-surface -->
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/components.js"></script>
+  <script src="js/app.js"></script>
+  <!-- ApexCharts (Local + CDN fallback) -->
+  <script src="js/apexcharts.min.js"></script>
+  <script>
+    if (typeof ApexCharts === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.54.1/dist/apexcharts.min.js"><\/script>');
+    }
+  </script>
+  <!-- Dashboard-specific logic -->
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

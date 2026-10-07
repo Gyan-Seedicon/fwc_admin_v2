@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Posts | FWC Admin Portal</title>
+  <meta name="description" content="Manage, review, and publish blog posts and editorial content across the FWC Portal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/blog-posts.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Global FWC Header -->
+    <fwc-header
+      page-title="Blog Posts"
+      page-subtitle="Manage articles, review pending submissions, and monitor editorial publications">
+    </fwc-header>
+
+    <div class="app-body">
+      <!-- Global FWC Sidebar (active: blog-posts) -->
+      <fwc-sidebar active="blog-posts"></fwc-sidebar>
+
+      <!-- Main Workspace Viewport -->
+      <main class="main-viewport" id="mainContent">
+        <div class="blog-surface">
+
+          <!-- ── Page Header & Action CTAs ──────────────────────────────── -->
+          <div class="blog-header-row">
+            <div class="blog-title-group">
+              <h1 class="blog-title">Blog Posts</h1>
+              <p class="blog-sub">Editorial drafts, pending reviews, and published insights across industry categories.</p>
+            </div>
+
+            <!-- Top Action CTAs: Export CSV & Add Blog Post -->
+            <div class="blog-header-actions">
+              <button type="button" class="btn-header-ghost" id="btnExportCsv" title="Export current list to CSV">
+                <i class="ph ph-download-simple"></i>
+                <span>Export CSV</span>
+              </button>
+              <a href="blog-editor.html" class="btn-header-primary" id="btnAddBlogPost" title="Create a new blog post" style="text-decoration: none;">
+                <i class="ph ph-plus"></i>
+                <span>Add blog post</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- ── 4 Summary Cards Grid ───────────────────────────────────── -->
+          <div class="blog-summary-cards">
+
+            <!-- 1. Published -->
+            <div class="summary-card">
+              <div class="summary-card-header">
+                <span class="summary-card-label">Published</span>
+                <span class="summary-card-icon icon--emerald">
+                  <i class="ph ph-check-circle"></i>
+                </span>
+              </div>
+              <div class="summary-card-value" id="cardCountPublished">7</div>
+              <div class="summary-card-footer">
+                <span class="summary-card-meta">Live on the website</span>
+              </div>
+            </div>
+
+            <!-- 2. Pending review -->
+            <div class="summary-card">
+              <div class="summary-card-header">
+                <span class="summary-card-label">Pending review</span>
+                <span class="summary-card-icon icon--amber">
+                  <i class="ph ph-hourglass-high"></i>
+                </span>
+              </div>
+              <div class="summary-card-value" id="cardCountPending">4</div>
+              <div class="summary-card-footer">
+                <span class="summary-card-meta">Awaiting a decision</span>
+              </div>
+            </div>
+
+            <!-- 3. Drafts -->
+            <div class="summary-card">
+              <div class="summary-card-header">
+                <span class="summary-card-label">Drafts</span>
+                <span class="summary-card-icon icon--slate">
+                  <i class="ph ph-file-dashed"></i>
+                </span>
+              </div>
+              <div class="summary-card-value" id="cardCountDrafts">4</div>
+              <div class="summary-card-footer">
+                <span class="summary-card-meta">Unsubmitted work</span>
+              </div>
+            </div>
+
+            <!-- 4. Total posts -->
+            <div class="summary-card">
+              <div class="summary-card-header">
+                <span class="summary-card-label">Total posts</span>
+                <span class="summary-card-icon icon--blue">
+                  <i class="ph ph-article"></i>
+                </span>
+              </div>
+              <div class="summary-card-value" id="cardCountTotal">15</div>
+              <div class="summary-card-footer">
+                <span class="summary-card-meta">Current articles</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ── Table Panel Container ──────────────────────────────────── -->
+          <div class="blog-table-panel">
+
+            <!-- Toolbar: Search, 4 Filters & Count -->
+            <div class="blog-toolbar">
+              <div class="toolbar-filter-cluster">
+                
+                <!-- Search Box -->
+                <div class="blog-search-box">
+                  <i class="ph ph-magnifying-glass"></i>
+                  <input
+                    type="text"
+                    class="blog-search-input"
+                    id="blogSearchInput"
+                    placeholder="Search title, author, category..."
+                    aria-label="Search blog posts"
+                  />
+                </div>
+
+                <!-- 1. All statuses Filter -->
+                <div class="filter-dropdown-wrap">
+                  <button type="button" class="filter-trigger-btn" id="statusFilterTrigger" aria-haspopup="true" aria-expanded="false">
+                    <i class="ph ph-funnel"></i>
+                    <span id="statusFilterLabel">All statuses</span>
+                    <i class="ph ph-caret-down caret-icon"></i>
+                  </button>
+                  <div class="filter-menu-popover" id="statusFilterMenu">
+                    <div class="filter-menu-item is-active" data-value="all">All statuses</div>
+                    <div class="filter-menu-item" data-value="published">Published</div>
+                    <div class="filter-menu-item" data-value="pending">Pending review</div>
+                    <div class="filter-menu-item" data-value="draft">Draft</div>
+                  </div>
+                </div>
+
+                <!-- 2. All creators Filter -->
+                <div class="filter-dropdown-wrap">
+                  <button type="button" class="filter-trigger-btn" id="creatorFilterTrigger" aria-haspopup="true" aria-expanded="false">
+                    <i class="ph ph-user"></i>
+                    <span id="creatorFilterLabel">All creators</span>
+                    <i class="ph ph-caret-down caret-icon"></i>
+                  </button>
+                  <div class="filter-menu-popover" id="creatorFilterMenu">
+                    <div class="filter-menu-item is-active" data-value="all">All creators</div>
+                    <div class="filter-menu-item" data-value="Sarah Mitchell">Sarah Mitchell</div>
+                    <div class="filter-menu-item" data-value="Priya Nair">Priya Nair</div>
+                    <div class="filter-menu-item" data-value="Marcus Webb">Marcus Webb</div>
+                    <div class="filter-menu-item" data-value="James Okafor">James Okafor</div>
+                    <div class="filter-menu-item" data-value="David Kim">David Kim</div>
+                    <div class="filter-menu-item" data-value="Elena Rostova">Elena Rostova</div>
+                    <div class="filter-menu-item" data-value="Liam Vance">Liam Vance</div>
+                  </div>
+                </div>
+
+                <!-- 3. All types Filter -->
+                <div class="filter-dropdown-wrap">
+                  <button type="button" class="filter-trigger-btn" id="typeFilterTrigger" aria-haspopup="true" aria-expanded="false">
+                    <i class="ph ph-tag"></i>
+                    <span id="typeFilterLabel">All types</span>
+                    <i class="ph ph-caret-down caret-icon"></i>
+                  </button>
+                  <div class="filter-menu-popover" id="typeFilterMenu">
+                    <div class="filter-menu-item is-active" data-value="all">All types</div>
+                    <div class="filter-menu-item" data-value="Article">Article</div>
+                    <div class="filter-menu-item" data-value="Guide">Guide</div>
+                    <div class="filter-menu-item" data-value="Blog post">Blog post</div>
+                    <div class="filter-menu-item" data-value="Case study">Case study</div>
+                  </div>
+                </div>
+
+                <!-- 4. All dates Filter -->
+                <div class="filter-dropdown-wrap">
+                  <button type="button" class="filter-trigger-btn" id="dateFilterTrigger" aria-haspopup="true" aria-expanded="false">
+                    <i class="ph ph-calendar"></i>
+                    <span id="dateFilterLabel">All dates</span>
+                    <i class="ph ph-caret-down caret-icon"></i>
+                  </button>
+                  <div class="filter-menu-popover" id="dateFilterMenu">
+                    <div class="filter-menu-item is-active" data-value="all">All dates</div>
+                    <div class="filter-menu-item" data-value="September 2026">September 2026</div>
+                    <div class="filter-menu-item" data-value="August 2026">August 2026</div>
+                    <div class="filter-menu-item" data-value="July 2026">July 2026</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Toolbar Counter -->
+              <div class="toolbar-counter-text" id="blogCountText">
+                Showing <strong>15</strong> of 15 posts
+              </div>
+            </div>
+
+            <!-- ── 10-Column Table Layout ─────────────────────────────────── -->
+            <div class="table-responsive-wrap">
+              <table class="blog-table" id="blogPostsTable">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 100px;">Post ID</th>
+                    <th scope="col" style="min-width: 240px;">Title</th>
+                    <th scope="col" style="width: 150px;">Created by</th>
+                    <th scope="col" style="width: 120px;">Created on</th>
+                    <th scope="col" style="width: 100px;">Type</th>
+                    <th scope="col" style="width: 145px;">Category</th>
+                    <th scope="col" style="width: 120px;">Submitted</th>
+                    <th scope="col" style="width: 130px;">Status</th>
+                    <th scope="col" style="width: 120px;">Published</th>
+                    <th scope="col" style="width: 70px; text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="blogTableBody">
+                  <!-- Rendered dynamically by js/blog-posts.js -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Table Footer -->
+            <div class="blog-table-footer">
+              <span id="blogFooterCount">Showing 1–15 of 15 posts</span>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <button class="btn-action-dots" disabled title="Previous page" style="opacity: 0.45; cursor: not-allowed;">
+                  <i class="ph ph-caret-left"></i>
+                </button>
+                <button class="btn-action-dots" disabled title="Next page" style="opacity: 0.45; cursor: not-allowed;">
+                  <i class="ph ph-caret-right"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ── Add / Edit Blog Post Modal ──────────────────────────────────────── -->
+  <div class="dialog-overlay" id="modalAddPost" aria-hidden="true" role="dialog">
+    <div class="dialog-panel">
+      <div class="dialog-header">
+        <h3 class="dialog-title" id="modalAddPostTitle">Add New Blog Post</h3>
+        <button type="button" class="btn-action-dots" id="btnCloseAddModal" title="Close" aria-label="Close dialog">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <div class="dialog-body">
+        <input type="hidden" id="editPostIdField" value="">
+        
+        <div class="dialog-form-group">
+          <label class="dialog-form-label" for="inputPostTitle">Post Title</label>
+          <input type="text" class="dialog-input" id="inputPostTitle" placeholder="e.g. Modern Architecture for Distributed Systems">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="dialog-form-group">
+            <label class="dialog-form-label" for="selectPostType">Content Type</label>
+            <select class="dialog-select" id="selectPostType">
+              <option value="Article">Article</option>
+              <option value="Guide">Guide</option>
+              <option value="Blog post">Blog post</option>
+              <option value="Case study">Case study</option>
+            </select>
+          </div>
+
+          <div class="dialog-form-group">
+            <label class="dialog-form-label" for="selectPostCategory">Category</label>
+            <select class="dialog-select" id="selectPostCategory">
+              <option value="Industry Insights">Industry Insights</option>
+              <option value="Cloud Architecture">Cloud Architecture</option>
+              <option value="Artificial Intelligence">Artificial Intelligence</option>
+              <option value="Supply Chain">Supply Chain</option>
+              <option value="Cybersecurity">Cybersecurity</option>
+              <option value="Cloud Services">Cloud Services</option>
+              <option value="Edge Computing">Edge Computing</option>
+              <option value="UI/UX Design">UI/UX Design</option>
+              <option value="Data Systems">Data Systems</option>
+              <option value="Web Engineering">Web Engineering</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="dialog-form-group">
+          <label class="dialog-form-label" for="inputPostAuthor">Author / Creator</label>
+          <input type="text" class="dialog-input" id="inputPostAuthor" value="Sarah Mitchell">
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button type="button" class="btn-header-ghost" id="btnCancelAddModal">Cancel</button>
+        <button type="button" class="btn-header-ghost" id="btnSaveDraft" style="background-color: #f8fafc;">Save as Draft</button>
+        <button type="button" class="btn-header-primary" id="btnSubmitPost">Submit for Review</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Delete Confirmation Modal ──────────────────────────────────────── -->
+  <div class="dialog-overlay" id="modalDelete" aria-hidden="true" role="dialog">
+    <div class="dialog-panel" style="max-width: 440px;">
+      <div class="dialog-header">
+        <h3 class="dialog-title" style="color: #be123c;">Delete Blog Post</h3>
+        <button type="button" class="btn-action-dots" id="btnCloseDeleteModal" title="Close">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <div class="dialog-body">
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+          Are you sure you want to permanently delete post <strong id="deleteTargetId" style="color: var(--text-primary);">#BLG-000</strong>? This action cannot be undone.
+        </p>
+      </div>
+      <div class="dialog-footer">
+        <button type="button" class="btn-header-ghost" id="btnCancelDelete">Cancel</button>
+        <button type="button" class="btn-header-primary" id="btnConfirmDelete" style="background-color: #e11d48; border-color: #e11d48;">Delete Post</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Global Toast Notification ──────────────────────────────────────── -->
+  <div class="blog-toast" id="blogToast" role="status" aria-live="polite">
+    <i class="ph ph-check-circle"></i>
+    <span id="blogToastMsg">Action completed successfully</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/components.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/blog-posts.js"></script>
+</body>
+</html>

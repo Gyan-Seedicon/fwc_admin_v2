@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Job Requisition #JOB-000006 | FWC Admin Portal</title>
+  <meta name="description" content="Review, approve, or reject job posting for Site Reliability & Platform Engineer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/job-review.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Global FWC Header -->
+    <fwc-header
+      page-title="Approval Requests"
+      page-subtitle="Review Requisition #JOB-000006">
+    </fwc-header>
+
+    <div class="app-body">
+      <!-- Global FWC Sidebar -->
+      <fwc-sidebar active="approval-requests"></fwc-sidebar>
+
+      <!-- Main Workspace Viewport -->
+      <main class="main-viewport" id="mainContent">
+        <div class="job-review-surface">
+
+          <!-- ── Top Breadcrumbs ─────────────────────────────────────────── -->
+          <nav class="review-breadcrumbs" aria-label="Breadcrumb">
+            <a href="approval-requests.html" class="breadcrumb-link">
+              <i class="ph ph-arrow-left"></i>
+              <span>Approval Requests</span>
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Review #JOB-412 (Site Reliability & Platform Engineer)</span>
+          </nav>
+
+          <!-- ── Top Job Header Bar with Title & Action Buttons ──────────── -->
+          <div class="job-review-header-bar">
+            <div class="job-header-left">
+              <h1 class="job-header-title">Site Reliability & Platform Engineer</h1>
+              <div class="job-header-badges">
+                <span class="job-type-pill">
+                  <i class="ph ph-briefcase"></i> Job Posting
+                </span>
+                <span class="job-req-id">#JOB-000006</span>
+                <span class="job-status-badge" id="topStatusBadge">Pending Review</span>
+              </div>
+            </div>
+
+            <!-- Top Header Actions: Edit, Reject, Approve & Publish -->
+            <div class="job-header-actions">
+              <button type="button" class="btn-review-top btn-review-top--edit" id="btnReviewEdit">
+                <i class="ph ph-pencil-simple"></i> Edit
+              </button>
+              <button type="button" class="btn-review-top btn-review-top--reject" id="btnReviewReject">
+                <i class="ph ph-x"></i> Reject
+              </button>
+              <button type="button" class="btn-review-top btn-review-top--approve" id="btnReviewApprove">
+                <i class="ph ph-check"></i> Approve & Publish
+              </button>
+            </div>
+          </div>
+
+          <!-- ── Main Two-Column Review Layout ────────────────────────────── -->
+          <div class="job-review-grid">
+
+            <!-- ── Left Column: Unified Surface with Section Dividers ─────── -->
+            <div class="job-main-surface">
+
+              <!-- Section 1: Requisition Specifications Grid -->
+              <section class="review-section">
+                <div class="review-section-heading">
+                  <span>Requisition specifications</span>
+                </div>
+
+                <div class="job-specs-grid">
+                  <div class="job-spec-item">
+                    <span class="job-spec-label">Category</span>
+                    <span class="job-spec-value">Cloud Services</span>
+                  </div>
+                  <div class="job-spec-item">
+                    <span class="job-spec-label">Work mode</span>
+                    <span class="job-spec-value">Remote</span>
+                  </div>
+                  <div class="job-spec-item">
+                    <span class="job-spec-label">Employment type</span>
+                    <span class="job-spec-value">Full-time</span>
+                  </div>
+                  <div class="job-spec-item">
+                    <span class="job-spec-label">Experience</span>
+                    <span class="job-spec-value">Senior (5–8 Yrs)</span>
+                  </div>
+                  <div class="job-spec-item">
+                    <span class="job-spec-label">Compensation</span>
+                    <span class="job-spec-value is-empty">Not disclosed</span>
+                  </div>
+                  <div class="job-spec-item">
+                    <span class="job-spec-label">Expiry date</span>
+                    <span class="job-spec-value is-empty">—</span>
+                  </div>
+                  <div class="job-spec-item">
+                    <span class="job-spec-label">Requisition ID</span>
+                    <span class="job-spec-value" style="font-family: ui-monospace, monospace;">JOB-000006</span>
+                  </div>
+                  <div class="job-spec-item">
+                    <span class="job-spec-label">Posted date</span>
+                    <span class="job-spec-value">9/15/2026</span>
+                  </div>
+                  <div class="job-spec-item">
+                    <span class="job-spec-label">Point of contact</span>
+                    <span class="job-spec-value is-empty">—</span>
+                  </div>
+                </div>
+              </section>
+
+              <hr class="review-section-divider">
+
+              <!-- Section 2: Role Overview & Mission -->
+              <section class="review-section">
+                <div class="review-section-heading">
+                  <span>Role overview & mission</span>
+                </div>
+                <p class="job-overview-text">
+                  Design, build, and scale automated multi-cloud observability, chaos engineering pipelines, and 99.99% high-availability production clusters.
+                </p>
+              </section>
+
+              <hr class="review-section-divider">
+
+              <!-- Section 3: Key Responsibilities -->
+              <section class="review-section">
+                <div class="review-section-heading">
+                  <span>Key responsibilities</span>
+                </div>
+                <ul class="job-responsibilities-list">
+                  <li class="job-responsibility-item">
+                    <i class="ph ph-check-circle responsibility-icon"></i>
+                    <span>Build and maintain highly available cloud infrastructure and production clusters.</span>
+                  </li>
+                  <li class="job-responsibility-item">
+                    <i class="ph ph-check-circle responsibility-icon"></i>
+                    <span>Develop observability and monitoring solutions across multi-cloud environments.</span>
+                  </li>
+                  <li class="job-responsibility-item">
+                    <i class="ph ph-check-circle responsibility-icon"></i>
+                    <span>Design and automate chaos engineering and resilience testing pipelines.</span>
+                  </li>
+                  <li class="job-responsibility-item">
+                    <i class="ph ph-check-circle responsibility-icon"></i>
+                    <span>Improve system reliability, scalability, and incident response processes.</span>
+                  </li>
+                  <li class="job-responsibility-item">
+                    <i class="ph ph-check-circle responsibility-icon"></i>
+                    <span>Collaborate with engineering teams to improve platform performance and reliability.</span>
+                  </li>
+                </ul>
+              </section>
+
+              <hr class="review-section-divider">
+
+              <!-- Section 4: Required Skills -->
+              <section class="review-section">
+                <div class="review-section-heading">
+                  <span>Required skills</span>
+                </div>
+                <div class="job-skills-wrap">
+                  <span class="skill-chip"><i class="ph ph-cube"></i> Kubernetes & Helm</span>
+                  <span class="skill-chip"><i class="ph ph-activity"></i> OpenTelemetry</span>
+                  <span class="skill-chip"><i class="ph ph-cloud"></i> AWS / GCP</span>
+                  <span class="skill-chip"><i class="ph ph-brackets-curly"></i> Terraform</span>
+                  <span class="skill-chip"><i class="ph ph-lightning"></i> Chaos Engineering</span>
+                </div>
+              </section>
+
+              <hr class="review-section-divider">
+
+              <!-- Section 5: Attached Job Description (JD) -->
+              <section class="review-section">
+                <div class="review-section-heading">
+                  <span>Attached job description</span>
+                </div>
+
+                <div class="job-attachment-card">
+                  <div class="attachment-info-group">
+                    <div class="attachment-file-icon">
+                      <i class="ph ph-file-pdf"></i>
+                    </div>
+                    <div class="attachment-text-group">
+                      <span class="attachment-name">JD_Site_Reliability_Platform_Engineer_v2.pdf</span>
+                      <span class="attachment-meta">248 KB · Uploaded by Sarah Mitchell on Sep 15, 2026</span>
+                    </div>
+                  </div>
+
+                  <div class="attachment-actions">
+                    <button type="button" class="btn-attachment-action btn-attachment-action--primary" id="btnPreviewDoc">
+                      <i class="ph ph-eye"></i> Preview Document
+                    </button>
+                    <button type="button" class="btn-attachment-action" id="btnDownloadDoc">
+                      <i class="ph ph-download-simple"></i> Download
+                    </button>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+
+            <!-- ── Right Column: Activity History Timeline Panel ─────────── -->
+            <aside class="activity-history-panel" aria-label="Activity history">
+              <div class="activity-panel-header">
+                <div class="activity-panel-title">
+                  <i class="ph ph-clock-counter-clockwise"></i>
+                  <span>Activity history</span>
+                </div>
+                <span class="activity-count-badge" id="revisionCountBadge">4 activities</span>
+              </div>
+
+              <div class="activity-timeline-body">
+                <div class="activity-timeline-list" id="timelineList">
+                  <!-- Rendered dynamically by js/job-review.js -->
+                </div>
+              </div>
+            </aside>
+
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ── Modal: Approve Confirmation Dialog ────────────────────────────── -->
+  <div class="review-dialog-overlay" id="approveModalOverlay" aria-hidden="true" role="dialog" aria-labelledby="approveModalTitle">
+    <div class="review-dialog-panel">
+      <div class="review-dialog-header">
+        <span class="review-dialog-title" id="approveModalTitle">Approve & publish requisition</span>
+        <button class="btn-modal-close" id="btnCloseApproveModal" type="button" aria-label="Close dialog">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <div class="review-dialog-body">
+        <p style="font-size: var(--font-size-13); color: var(--text-secondary); line-height: 1.5;">
+          Are you sure you want to approve <strong>#JOB-000006</strong> (Site Reliability & Platform Engineer)?
+        </p>
+        <p style="font-size: var(--font-size-12); color: var(--text-muted); line-height: 1.4;">
+          This job posting will immediately be published and made visible on the public career portal.
+        </p>
+      </div>
+      <div class="review-dialog-footer">
+        <button class="btn-review-top btn-review-top--edit" id="btnCancelApprove" type="button">Cancel</button>
+        <button class="btn-review-top btn-review-top--approve" id="btnConfirmApprove" type="button">
+          <i class="ph ph-check"></i> Approve & publish
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Modal: Reject Confirmation & Comment Dialog ────────────────────── -->
+  <div class="review-dialog-overlay" id="rejectModalOverlay" aria-hidden="true" role="dialog" aria-labelledby="rejectModalTitle">
+    <div class="review-dialog-panel">
+      <div class="review-dialog-header">
+        <span class="review-dialog-title" id="rejectModalTitle">Reject job requisition</span>
+        <button class="btn-modal-close" id="btnCloseRejectModal" type="button" aria-label="Close dialog">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <div class="review-dialog-body">
+        <p style="font-size: var(--font-size-13); color: var(--text-secondary); line-height: 1.5;">
+          Are you sure you want to reject <strong>#JOB-000006</strong>? Please provide a comment or revision feedback for Sarah Mitchell.
+        </p>
+        <textarea
+          class="dialog-textarea"
+          id="rejectReasonInput"
+          placeholder="Add your rejection comment or required changes..."
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="review-dialog-footer">
+        <button class="btn-review-top btn-review-top--edit" id="btnCancelReject" type="button">Cancel</button>
+        <button class="btn-review-top btn-review-top--reject" id="btnConfirmReject" type="button">
+          <i class="ph ph-x"></i> Confirm rejection
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Modal: Document Preview ──────────────────────────────────────────── -->
+  <div class="review-dialog-overlay" id="docPreviewModalOverlay" aria-hidden="true" role="dialog">
+    <div class="review-dialog-panel doc-preview-panel">
+      <div class="review-dialog-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-file-pdf" style="color: #be123c; font-size: 18px;"></i>
+          <span class="review-dialog-title">Document Preview — JD_Site_Reliability_Platform_Engineer_v2.pdf</span>
+        </div>
+        <button class="btn-modal-close" id="btnCloseDocModal" type="button" aria-label="Close preview">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <div class="review-dialog-body">
+        <div class="doc-paper-content">
+          <div class="doc-paper-header">
+            <h2 class="doc-paper-title">Site Reliability & Platform Engineer</h2>
+            <div style="font-size: 12px; color: var(--text-muted);">
+              Requisition ID: JOB-000006 · Category: Cloud Services · Work Mode: Remote · Experience: Senior (5-8 Yrs)
+            </div>
+          </div>
+
+          <h3 style="font-size: 14px; color: var(--text-primary); margin: 12px 0 6px;">1. Role Overview & Mission</h3>
+          <p>Design, build, and scale automated multi-cloud observability, chaos engineering pipelines, and 99.99% high-availability production clusters.</p>
+
+          <h3 style="font-size: 14px; color: var(--text-primary); margin: 14px 0 6px;">2. Core Responsibilities</h3>
+          <ul style="padding-left: 20px; margin: 0 0 12px;">
+            <li>Build and maintain highly available cloud infrastructure and production clusters.</li>
+            <li>Develop observability and monitoring solutions across multi-cloud environments.</li>
+            <li>Design and automate chaos engineering and resilience testing pipelines.</li>
+            <li>Improve system reliability, scalability, and incident response processes.</li>
+            <li>Collaborate with engineering teams to improve platform performance and reliability.</li>
+          </ul>
+
+          <h3 style="font-size: 14px; color: var(--text-primary); margin: 14px 0 6px;">3. Technical Competencies</h3>
+          <p>Proficiency in Kubernetes & Helm, OpenTelemetry, AWS/GCP Multi-cloud, Terraform IaC, and Chaos Engineering frameworks.</p>
+        </div>
+      </div>
+      <div class="review-dialog-footer">
+        <button class="btn-review-top btn-review-top--edit" id="btnCloseDocFooter" type="button">Close Preview</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="jobReviewToast" class="job-review-toast" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="js/components.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/job-review.js"></script>
+</body>
+</html>

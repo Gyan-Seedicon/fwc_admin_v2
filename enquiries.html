@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enquiries | FWC Admin Portal</title>
+  <meta name="description" content="Manage inbound services enquiries, partnership proposals, and AI agent requests in the FWC Admin Portal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/enquiries.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Global FWC Header -->
+    <fwc-header
+      page-title="Enquiries"
+      page-subtitle="Manage inbound service requests, partnership proposals, and AI agent inquiries">
+    </fwc-header>
+
+    <div class="app-body">
+      <!-- Global FWC Sidebar (active: enquiries) -->
+      <fwc-sidebar active="enquiries"></fwc-sidebar>
+
+      <!-- Main Workspace Viewport -->
+      <main class="main-viewport" id="mainContent">
+        <div class="enquiries-surface">
+
+          <!-- ── Page Header & Action CTAs ──────────────────────────────── -->
+          <div class="enquiries-header-row">
+            <div class="enquiries-title-group">
+              <h1 class="enquiries-title">Enquiries & Messages</h1>
+              <p class="enquiries-sub">Review incoming client requests, partnership discussions, and autonomous AI agent inquiries.</p>
+            </div>
+
+            <!-- Top Action CTAs: Export CSV -->
+            <div class="enquiries-header-actions">
+              <button type="button" class="btn-header-ghost" id="btnExportCsv" title="Export current list to CSV">
+                <i class="ph ph-download-simple"></i>
+                <span>Export CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ── Top Tabs Navigation (Services, Partnerships, AI Agents) ── -->
+          <nav class="enquiries-tabs-nav" aria-label="Enquiry Category Tabs">
+            <button type="button" class="tab-nav-btn is-active" data-tab="services">
+              <i class="ph ph-wrench"></i>
+              <span>Services Enquiries</span>
+              <span class="tab-count-badge" id="badgeCountServices">8</span>
+            </button>
+            <button type="button" class="tab-nav-btn" data-tab="partnerships">
+              <i class="ph ph-handshake"></i>
+              <span>Partnership Requests</span>
+              <span class="tab-count-badge" id="badgeCountPartnerships">5</span>
+            </button>
+            <button type="button" class="tab-nav-btn" data-tab="aiAgents">
+              <i class="ph ph-cpu"></i>
+              <span>AI Agent Requests</span>
+              <span class="tab-count-badge" id="badgeCountAiAgents">6</span>
+            </button>
+          </nav>
+
+          <!-- ── Table Panel Container ──────────────────────────────────── -->
+          <div class="enquiries-table-panel">
+
+            <!-- Toolbar: Search, 3 Filters & Count -->
+            <div class="enquiries-toolbar">
+              <div class="toolbar-filter-cluster">
+                
+                <!-- Search Box -->
+                <div class="enquiries-search-box">
+                  <i class="ph ph-magnifying-glass"></i>
+                  <input
+                    type="text"
+                    class="enquiries-search-input"
+                    id="enquirySearchInput"
+                    placeholder="Search name, email, subject..."
+                    aria-label="Search enquiries"
+                  />
+                </div>
+
+                <!-- 1. All statuses Filter -->
+                <div class="filter-dropdown-wrap">
+                  <button type="button" class="filter-trigger-btn" id="statusFilterTrigger" aria-haspopup="true" aria-expanded="false">
+                    <i class="ph ph-funnel"></i>
+                    <span id="statusFilterLabel">All statuses</span>
+                    <i class="ph ph-caret-down caret-icon"></i>
+                  </button>
+                  <div class="filter-menu-popover" id="statusFilterMenu">
+                    <div class="filter-menu-item is-active" data-value="all">All statuses</div>
+                    <div class="filter-menu-item" data-value="new">New</div>
+                    <div class="filter-menu-item" data-value="progress">In Progress</div>
+                    <div class="filter-menu-item" data-value="resolved">Resolved</div>
+                  </div>
+                </div>
+
+                <!-- 2. All assignees Filter -->
+                <div class="filter-dropdown-wrap">
+                  <button type="button" class="filter-trigger-btn" id="assigneeFilterTrigger" aria-haspopup="true" aria-expanded="false">
+                    <i class="ph ph-user"></i>
+                    <span id="assigneeFilterLabel">All assignees</span>
+                    <i class="ph ph-caret-down caret-icon"></i>
+                  </button>
+                  <div class="filter-menu-popover" id="assigneeFilterMenu">
+                    <div class="filter-menu-item is-active" data-value="all">All assignees</div>
+                    <div class="filter-menu-item" data-value="Sarah Mitchell">Sarah Mitchell</div>
+                    <div class="filter-menu-item" data-value="James Okafor">James Okafor</div>
+                    <div class="filter-menu-item" data-value="Elena Rostova">Elena Rostova</div>
+                    <div class="filter-menu-item" data-value="David Kim">David Kim</div>
+                    <div class="filter-menu-item" data-value="Marcus Webb">Marcus Webb</div>
+                    <div class="filter-menu-item" data-value="Priya Nair">Priya Nair</div>
+                    <div class="filter-menu-item" data-value="Liam Vance">Liam Vance</div>
+                  </div>
+                </div>
+
+                <!-- 3. All dates Filter -->
+                <div class="filter-dropdown-wrap">
+                  <button type="button" class="filter-trigger-btn" id="dateFilterTrigger" aria-haspopup="true" aria-expanded="false">
+                    <i class="ph ph-calendar"></i>
+                    <span id="dateFilterLabel">All dates</span>
+                    <i class="ph ph-caret-down caret-icon"></i>
+                  </button>
+                  <div class="filter-menu-popover" id="dateFilterMenu">
+                    <div class="filter-menu-item is-active" data-value="all">All dates</div>
+                    <div class="filter-menu-item" data-value="Today">Today</div>
+                    <div class="filter-menu-item" data-value="September 2026">September 2026</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Toolbar Counter -->
+              <div class="toolbar-counter-text" id="enquiryCountText">
+                Showing <strong>8</strong> of 8 enquiries
+              </div>
+            </div>
+
+            <!-- ── 7-Column Table Layout ──────────────────────────────────── -->
+            <div class="table-responsive-wrap">
+              <table class="enquiries-table" id="enquiriesTable">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 170px;">Name</th>
+                    <th scope="col" style="width: 210px;">Email</th>
+                    <th scope="col" style="min-width: 260px;">Subject</th>
+                    <th scope="col" style="width: 140px;">Received</th>
+                    <th scope="col" style="width: 120px;">Status</th>
+                    <th scope="col" style="width: 160px;">Assignee</th>
+                    <th scope="col" style="width: 70px; text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="enquiriesTableBody">
+                  <!-- Rendered dynamically by js/enquiries.js -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Table Footer -->
+            <div class="enquiries-table-footer">
+              <span id="enquiryFooterCount">Showing 1–8 of 8 enquiries</span>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <button class="btn-action-dots" disabled title="Previous page" style="opacity: 0.45; cursor: not-allowed;">
+                  <i class="ph ph-caret-left"></i>
+                </button>
+                <button class="btn-action-dots" disabled title="Next page" style="opacity: 0.45; cursor: not-allowed;">
+                  <i class="ph ph-caret-right"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ── Slide-Over Detail Drawer ────────────────────────────────────────── -->
+  <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true" role="dialog">
+    <div class="drawer-panel">
+      
+      <!-- Drawer Header -->
+      <div class="drawer-header">
+        <div class="drawer-title-group">
+          <span class="drawer-title" id="drawerContactName">Contact Name</span>
+          <span class="drawer-subtitle" id="drawerId">#ENQ-000</span>
+        </div>
+        <button type="button" class="btn-action-dots" id="btnCloseDrawer" title="Close drawer" aria-label="Close drawer">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+
+      <!-- Drawer Body -->
+      <div class="drawer-body">
+        
+        <!-- Subject & Topic -->
+        <div class="drawer-section">
+          <span class="drawer-section-title">Subject Line</span>
+          <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0; line-height: 1.3;" id="drawerSubject">Subject Title</h3>
+        </div>
+
+        <!-- Meta Details Grid -->
+        <div class="drawer-meta-grid">
+          <div class="drawer-meta-item">
+            <span class="drawer-meta-label">Email Address</span>
+            <span class="drawer-meta-value" id="drawerEmail">email@example.com</span>
+          </div>
+          <div class="drawer-meta-item">
+            <span class="drawer-meta-label">Company / Org</span>
+            <span class="drawer-meta-value" id="drawerCompany">Company Name</span>
+          </div>
+          <div class="drawer-meta-item">
+            <span class="drawer-meta-label">Category / Service</span>
+            <span class="drawer-meta-value" id="drawerServiceType">Cloud Architecture</span>
+          </div>
+          <div class="drawer-meta-item">
+            <span class="drawer-meta-label">Budget / Scale</span>
+            <span class="drawer-meta-value" id="drawerBudget">$50k - $80k</span>
+          </div>
+          <div class="drawer-meta-item">
+            <span class="drawer-meta-label">Timestamp Received</span>
+            <span class="drawer-meta-value" id="drawerReceived">Today, 10:14 AM</span>
+          </div>
+        </div>
+
+        <!-- Workflow Status & Assignee Selector -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="drawer-section">
+            <span class="drawer-section-title">Status</span>
+            <select class="dialog-select" id="drawerStatusSelect">
+              <option value="new">New</option>
+              <option value="progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+          <div class="drawer-section">
+            <span class="drawer-section-title">Assignee</span>
+            <select class="dialog-select" id="drawerAssigneeSelect">
+              <option value="Sarah Mitchell">Sarah Mitchell</option>
+              <option value="James Okafor">James Okafor</option>
+              <option value="Elena Rostova">Elena Rostova</option>
+              <option value="David Kim">David Kim</option>
+              <option value="Marcus Webb">Marcus Webb</option>
+              <option value="Priya Nair">Priya Nair</option>
+              <option value="Liam Vance">Liam Vance</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Inquiry Message Content -->
+        <div class="drawer-section">
+          <span class="drawer-section-title">Inquiry Message</span>
+          <div class="drawer-message-box" id="drawerMessageBody">
+            Message body appears here...
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Drawer Footer -->
+      <div class="drawer-footer">
+        <button type="button" class="btn-header-ghost" id="btnDrawerCloseBottom">Close</button>
+        <button type="button" class="btn-header-primary" id="btnSaveDrawerNotes">Save & Update</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Global Toast Notification ──────────────────────────────────────── -->
+  <div class="enquiries-toast" id="enquiriesToast" role="status" aria-live="polite">
+    <i class="ph ph-check-circle"></i>
+    <span id="enquiriesToastMsg">Enquiry updated successfully</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/components.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/enquiries.js"></script>
+</body>
+</html>

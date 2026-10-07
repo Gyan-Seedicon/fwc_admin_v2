@@ -1,0 +1,587 @@
+/* ==========================================================================
+   FWC Admin Portal — Component Styles
+   Header + Sidebar  ·  Slate Chrome  ·  Blue + Neutrals Only
+   ========================================================================== */
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+fwc-header {
+  display: block;
+  width: 100%;
+  height: var(--header-height);
+  background-color: var(--bg-slate);
+  border-bottom: 1px solid var(--border-slate);
+  z-index: 100;
+  position: relative;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 20px;
+  gap: 16px;
+}
+
+/* Left cluster: Brand & Collapse Toggle aligned with the sidebar */
+.header-left {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(var(--sidebar-width) - 20px);
+  min-width: calc(var(--sidebar-width) - 20px);
+  flex-shrink: 0;
+  transition: width var(--transition-base), min-width var(--transition-base);
+}
+
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.brand-logo-img {
+  height: 22px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Subtle Admin tag next to logo */
+.brand-admin-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  background-color: var(--bg-slate-hover);
+  border: 1px solid var(--border-slate-strong);
+  border-radius: var(--radius-xs);
+  padding: 1.5px 6px;
+  height: 20px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  user-select: none;
+  text-transform: uppercase;
+  transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.brand-link:hover .brand-admin-tag {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  background-color: var(--bg-hover);
+}
+
+/* Sidebar toggle icon button in header (near end of sidebar) */
+.btn-sidebar-toggle-header {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color var(--transition-fast),
+              border-color var(--transition-fast),
+              color var(--transition-fast),
+              transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.btn-sidebar-toggle-header:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-slate);
+  color: var(--text-primary);
+}
+
+.btn-sidebar-toggle-header:active {
+  background-color: var(--bg-active);
+  transform: scale(0.96);
+}
+
+/* Collapsed header adjustment */
+body.sidebar-collapsed .header-left {
+  width: calc(var(--sidebar-collapsed-width) - 20px);
+  min-width: calc(var(--sidebar-collapsed-width) - 20px);
+  justify-content: center;
+}
+
+body.sidebar-collapsed .header-left .brand-link {
+  display: none;
+}
+
+/* Right cluster — pushes to the far right */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Search */
+.header-search-wrap {
+  width: 300px;
+}
+
+.header-search-box {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 32px;
+  padding: 0 10px;
+  background-color: var(--bg-hover);
+  border: 1px solid var(--border-slate);
+  border-radius: var(--radius-md);
+  cursor: text;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+.header-search-box:hover {
+  background-color: var(--color-white);
+  border-color: var(--border-slate-strong);
+}
+
+.header-search-box:focus-within {
+  background-color: var(--color-white);
+  border-color: var(--fwc-blue);
+  box-shadow: 0 0 0 2.5px var(--fwc-blue-focus);
+}
+
+.header-search-box i {
+  font-size: 15px;
+  color: var(--text-subtle);
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: var(--font-size-12);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.search-input::placeholder {
+  color: var(--text-subtle);
+}
+
+.search-shortcut {
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-subtle);
+  background-color: var(--color-white);
+  border: 1px solid var(--border-slate);
+  border-radius: 4px;
+  padding: 2px 5px;
+  line-height: 1;
+  user-select: none;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Icon button (bell) */
+.btn-icon-header {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-hover);
+  border: 1px solid var(--border-slate);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  position: relative;
+  font-size: 17px;
+  transition: background-color var(--transition-fast),
+              border-color var(--transition-fast),
+              color var(--transition-fast);
+}
+
+.btn-icon-header:hover {
+  background-color: var(--color-white);
+  border-color: var(--border-slate-strong);
+  color: var(--text-primary);
+}
+
+.notify-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 5px;
+  height: 5px;
+  background-color: var(--fwc-blue);
+  border-radius: 50%;
+  border: 1.5px solid var(--color-white);
+}
+
+/* ─── Sidebar ─────────────────────────────────────────────────────────────── */
+fwc-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  height: 100%;
+  background-color: var(--bg-slate);
+  border-right: 1px solid var(--border-slate);
+  user-select: none;
+  z-index: 90;
+  overflow: hidden;
+  transition: width var(--transition-base), min-width var(--transition-base);
+  flex-shrink: 0;
+}
+
+/* Collapsed state */
+fwc-sidebar.is-collapsed {
+  width: var(--sidebar-collapsed-width);
+  min-width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+/* ── Nav list with comfortable spacing and padding ── */
+.sidebar-nav-list {
+  flex: 1;
+  padding: 12px 10px 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* Generous spacing between nav items */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Nav item */
+.sidebar-item-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px; /* Comfortable vertical and horizontal padding */
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-regular);
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.sidebar-item-link:hover {
+  background-color: var(--bg-slate-hover);
+  color: var(--text-primary);
+}
+
+.sidebar-item-link:hover .sidebar-item-icon {
+  color: var(--text-secondary);
+}
+
+/* Active item */
+.sidebar-item-link.is-active {
+  background-color: var(--fwc-blue-subtle);
+  color: var(--fwc-blue);
+  font-weight: var(--font-weight-semibold);
+}
+
+.sidebar-item-link.is-active .sidebar-item-icon {
+  color: var(--fwc-blue);
+}
+
+.sidebar-item-link.is-active .sidebar-item-count {
+  color: var(--fwc-blue);
+  font-weight: var(--font-weight-semibold);
+}
+
+.sidebar-item-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.sidebar-item-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-subtle);
+  transition: color var(--transition-fast);
+}
+
+.sidebar-item-label {
+  font-size: var(--font-size-14);
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity var(--transition-base), width var(--transition-base);
+}
+
+/* Number in bracket as normal text only */
+.sidebar-item-count {
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-regular);
+  color: var(--text-muted);
+  line-height: 1;
+  margin-left: auto;
+  flex-shrink: 0;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  transition: opacity var(--transition-base), color var(--transition-fast);
+}
+
+.sidebar-item-link:hover .sidebar-item-count {
+  color: var(--text-secondary);
+}
+
+
+
+/* ── Bottom area (BELOW the divider): Admin Management + Profile ── */
+.sidebar-bottom-area {
+  flex-shrink: 0;
+  padding: 8px 10px 12px;
+  border-top: 1px solid var(--border-slate); /* The clean divider */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Profile card */
+.sidebar-profile-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.sidebar-profile-card:hover {
+  background-color: var(--bg-slate-hover);
+}
+
+.profile-main-info {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.profile-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: var(--fwc-blue-subtle);
+  color: var(--fwc-blue);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.profile-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.profile-name {
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-email {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-dots {
+  font-size: 15px;
+  color: var(--text-subtle);
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
+}
+
+.sidebar-profile-card:hover .profile-dots {
+  color: var(--text-secondary);
+}
+
+/* ─── Collapsed sidebar rules ─────────────────────────────────────────────── */
+fwc-sidebar.is-collapsed .sidebar-item-label,
+fwc-sidebar.is-collapsed .sidebar-item-count,
+fwc-sidebar.is-collapsed .profile-text-group,
+fwc-sidebar.is-collapsed .profile-dots {
+  opacity: 0;
+  width: 0;
+  display: none;
+  pointer-events: none;
+}
+
+fwc-sidebar.is-collapsed .sidebar-item-link {
+  justify-content: center;
+  padding: 8px 0;
+}
+
+fwc-sidebar.is-collapsed .sidebar-item-content {
+  justify-content: center;
+}
+
+fwc-sidebar.is-collapsed .sidebar-profile-card {
+  justify-content: center;
+  padding: 7px 0;
+}
+
+/* Tooltips when collapsed */
+fwc-sidebar.is-collapsed .sidebar-item-link:hover::after,
+fwc-sidebar.is-collapsed .sidebar-profile-card:hover::after {
+  content: attr(data-label);
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--text-primary);
+  color: var(--color-white);
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  z-index: 999;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ─── Search Command Palette ─────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 20, 30, 0.35);
+  backdrop-filter: blur(3px);
+  z-index: 999;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 13vh;
+}
+
+.modal-overlay.is-open {
+  display: flex;
+}
+
+.search-palette-modal {
+  width: 100%;
+  max-width: 500px;
+  background-color: var(--color-white);
+  border: 1px solid var(--border-slate);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-palette-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border-slate);
+}
+
+.search-palette-header i {
+  font-size: 16px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.search-palette-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--font-size-14);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.search-palette-input::placeholder {
+  color: var(--text-subtle);
+}
+
+.search-palette-results {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.palette-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-14);
+  color: var(--text-primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.palette-item:hover {
+  background-color: var(--bg-slate-hover);
+}
+
+.palette-item-left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.palette-item-left i {
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+.palette-category-badge {
+  font-size: var(--font-size-12);
+  color: var(--text-subtle);
+}
